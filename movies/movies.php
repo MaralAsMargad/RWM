@@ -20,7 +20,7 @@ $movies = $stmt->fetchAll();
 
     <div class="movie-header">
         <h1>Movies</h1>
-        <a href="create_movie.php">+ Add Movie</a>
+        <button class="create-movie-btn" onclick="location.href='create_movie.php'">+ Add Movie</button>
     </div>
     <div class="movie-container">
         <?php foreach ($movies as $movie): ?>
