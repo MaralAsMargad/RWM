@@ -1,0 +1,26 @@
+nav{
+    background-color: cornflowerblue; 
+    color: white; 
+    padding: 1em;
+}
+.nav-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.nav-links{
+    background-color: lightblue;
+    display: flex;
+    gap: 1em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navi{
+    background-color: lightyellow;
+    flex-direction: column; text-align: center; gap: 15px;
+}
+
