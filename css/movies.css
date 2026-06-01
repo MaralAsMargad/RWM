@@ -7,3 +7,38 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+body{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.movie-header{
+    background-color: aquamarine;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:50px;
+}
+
+.movies-container{
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+    gap:20px;
+
+    padding:20px;
+}
+
+.movie-card{
+    background:white;
+
+    padding:20px;
+
+    border-radius:10px;
+
+    box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
