@@ -1,13 +1,11 @@
-<?php
-
-?>
-
 <link rel="stylesheet" href="/rwm/css/nav.css">
 
 <nav>
     <div class="nav-container">
         <div>
-            <img src="" alt="logo" href="/rwm/index.php">
+            <a href="/rwm/index.php">
+                <img src="/rwm/images/logo.png" alt="logo">
+            </a>
         </div>
         <div>
             <input type="text" id="search" placeholder="Search movies...">
