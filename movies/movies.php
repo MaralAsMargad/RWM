@@ -13,7 +13,7 @@ $movies = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="rwm/css/movies.css">
+    <link rel="stylesheet" href="/rwm/css/movies.css">
     <title>Movies</title>
 </head>
 
@@ -28,9 +28,12 @@ $movies = $stmt->fetchAll();
         <?php foreach ($movies as $movie): ?>
             <div class="movie-card">
                 <h2> <?= htmlspecialchars($movie['title']) ?> </h2>
+                <img src="" alt="Movie Cover Image">
                 <p> <strong>Genre:</strong> <?= htmlspecialchars($movie['genre']) ?> </p>
                 <p> <strong>Year:</strong> <?= htmlspecialchars($movie['release_year']) ?> </p>
                 <p> <?= htmlspecialchars($movie['summary']) ?> </p>
+                <p> <strong>Rating:</strong> <?= htmlspecialchars($movie['rating']) ?>/10 </p>
+                <p> <strong>Review:</strong> <?= htmlspecialchars($movie['review']) ?>
             </div>
         <?php endforeach; ?>
     </div>

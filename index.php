@@ -1,8 +1,9 @@
 <?php
 header("Location: /rwm/movies/movies.php");
+exit;
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -36,4 +37,4 @@ header("Location: /rwm/movies/movies.php");
         </div>
     </div>
 </body>
-</html>
+</html> -->

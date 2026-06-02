@@ -9,7 +9,7 @@ body{
 }
 
 nav{
-    background-color: cornflowerblue; 
+    background-color: lightsalmon; 
     color: white; 
     padding: 1em;
 }
@@ -34,3 +34,8 @@ nav{
     flex-direction: column; text-align: center; gap: 15px;
 }
 
+input,
+textarea{
+    width:100%;
+    padding:10px;
+}
