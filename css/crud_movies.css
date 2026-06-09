@@ -13,17 +13,6 @@ body{
     background-color: lightyellow;
 }
 
-.form-create{
-    width: 100%;
-    max-width: 500px;
-    padding: 30px;
-    border-radius: 10px;
-    align-items: center;
-
-    background-color: lightgreen;
-    
-}
-
 .form-group {
     display: flex;
     flex-direction: column;
@@ -33,6 +22,19 @@ body{
 .header-title {
     padding-bottom: 50px;
     text-align: center;
+}
+
+/* CREATE FORM */
+
+.form-create{
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 10px;
+    align-items: center;
+
+    background-color: lightgreen;
+    
 }
 
 .form-create input,
@@ -76,4 +78,39 @@ button{
     padding:10px;
 
     margin-bottom:20px;
+}
+
+/* EDIT FORM */
+
+.form-to-edit{
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 10px;
+    align-items: center;
+
+    background-color: lightblue;
+}
+
+.back-btn{
+    margin-bottom: 20px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.back-btn:hover{
+    background-color: #e0e0e0;
+}
+
+.save-btn{
+    display: block;
+    margin-left: auto;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.save-btn:hover{
+    background-color: #e0e0e0;
 }

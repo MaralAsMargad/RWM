@@ -9,6 +9,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $genre = ($_POST['genre'] ?? []); // if genre is not set, use an empty array
     $summary = trim($_POST['summary']);
 
+    echo "<pre>";
+    print_r($_FILES);
+    echo "</pre>";
+
+    $imageName = null;
+
+    if (
+        isset($_FILES['image']) &&
+        $_FILES['image']['error'] === 0
+    ) {
+
+        $imageName = time() . '_' . basename($_FILES['image']['name']);
+
+        move_uploaded_file(
+            $_FILES['image']['tmp_name'],
+            "../uploads/" . $imageName
+        );
+    }
+
     // VALIDATION
     if (empty($title)) {
         $errors[] = "Title is required.";
@@ -27,15 +46,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $genreString = implode(',', $genre);
         $sql = "
             INSERT INTO movies
-            (title, genre, release_year, summary)
+            (title, image, genre, release_year, summary)
             VALUES
-            (:title, :genre, :release_year, :summary)
+            (:title, :image, :genre, :release_year, :summary)
         ";
 
         $stmt = $pdo->prepare($sql);
 
         $stmt->execute([
             ':title' => $title,
+            ':image' => $imageName,
             ':genre' => $genreString,
             ':release_year' => $release_year,
             ':summary' => $summary
@@ -49,15 +69,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!-- Add another select underneath -->
 <script>
-function addGenre() {
+    function addGenre() {
 
-    const container = document.getElementById('genre-container');
+        const container = document.getElementById('genre-container');
 
-    const newGenre = document.createElement('div');
+        const newGenre = document.createElement('div');
 
-    newGenre.classList.add('genre-row');
+        newGenre.classList.add('genre-row');
 
-    newGenre.innerHTML = `
+        newGenre.innerHTML = `
         <select name="genre[]" required>
             <option value="">Select Genre</option>
             <option value="Action">Action</option>
@@ -76,12 +96,12 @@ function addGenre() {
         <button type="button" onclick="removeGenre(this)">-</button>
     `;
 
-    container.appendChild(newGenre);
-}
+        container.appendChild(newGenre);
+    }
 
-function removeGenre(button) {
-    button.parentElement.remove();
-}
+    function removeGenre(button) {
+        button.parentElement.remove();
+    }
 </script>
 
 <!DOCTYPE html>
@@ -115,12 +135,12 @@ function removeGenre(button) {
 
         <?php endif; ?>
 
-        <form action="create_movie.php" method="post" class="form-create">
-            <h1 class="header-title">Create Movie</h1>
+        <form action="create_movie.php" method="post" enctype="multipart/form-data" class="form-create">        <!-- without enctype PHP cannot receive uploaded files -->
+        <button type="button" class="back-btn" onclick="window.history.back()">Back</button>
+        <h1 class="header-title">Create Movie</h1>
             <div class="form-group">
                 <label for="title">Image</label>
-                <input type="file" name="fileToUpload" id="fileToUpload">
-                <input type="submit" value="Upload Image" name="submit">
+                <input type="file" name="image" id="image">
             </div>
             <div class="form-group">
                 <label for="title">Title</label>
@@ -134,7 +154,7 @@ function removeGenre(button) {
                 <label for="genre">Genre</label>
                 <div id="genre-container">
                     <div class="genre-row">
-                        <select name="genre[]" required>        <!-- this tells PHP to receive an array -->
+                        <select name="genre[]" required>            <!-- this tells PHP to receive an array -->
                             <option value="">Select Genre</option>
                             <option value="Action">Action</option>
                             <option value="Adventure">Adventure</option>
@@ -157,7 +177,7 @@ function removeGenre(button) {
                 <label for="summary">Summary</label>
                 <textarea id="summary" name="summary" required></textarea>
             </div>
-            <button type="submit">Create</button>
+            <button type="submit" class="save-btn">Create</button>
         </form>
     </div>
 

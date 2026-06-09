@@ -3,10 +3,33 @@ require '../includes/db.php';
 
 $errors = [];
 
+$id = $_GET['id'] ?? null;
+
+if (!$id) {
+    die("Movie ID missing.");
+}
+
+// FETCH EXISTING MOVIE
+$sql = "SELECT * FROM movies WHERE id = :id";
+
+$stmt = $pdo->prepare($sql);
+
+$stmt->execute([
+    ':id' => $id
+]);
+
+$movie = $stmt->fetch();
+
+if (!$movie) {
+    die("Movie not found.");
+}
+
+$selectedGenres = explode(',', $movie['genre']);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title']);
     $release_year = trim($_POST['release_year']);
-    $genre = ($_POST['genre'] ?? []); // if genre is not set, use an empty array
+    $genre = $_POST['genre'] ?? [];
     $summary = trim($_POST['summary']);
 
     // VALIDATION
@@ -37,7 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':title' => $title,
             ':genre' => $genreString,
             ':release_year' => $release_year,
-            ':summary' => $summary
+            ':summary' => $summary,
+            ':id' => $id
         ]);
 
         header("Location: /rwm/movies/movies.php");
@@ -48,15 +72,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!-- Add another select underneath -->
 <script>
-function addGenre() {
+    function addGenre() {
 
-    const container = document.getElementById('genre-container');
+        const container = document.getElementById('genre-container');
 
-    const newGenre = document.createElement('div');
+        const newGenre = document.createElement('div');
 
-    newGenre.classList.add('genre-row');
+        newGenre.classList.add('genre-row');
 
-    newGenre.innerHTML = `
+        newGenre.innerHTML = `
         <select name="genre[]" required>
             <option value="">Select Genre</option>
             <option value="Action">Action</option>
@@ -75,12 +99,12 @@ function addGenre() {
         <button type="button" onclick="removeGenre(this)">-</button>
     `;
 
-    container.appendChild(newGenre);
-}
+        container.appendChild(newGenre);
+    }
 
-function removeGenre(button) {
-    button.parentElement.remove();
-}
+    function removeGenre(button) {
+        button.parentElement.remove();
+    }
 </script>
 
 <!DOCTYPE html>
@@ -114,49 +138,68 @@ function removeGenre(button) {
 
         <?php endif; ?>
 
-        <form action="edit_movie.php" method="post" class="form-edit">
+        <form action="edit_movie.php?id=<?= $movie['id'] ?>" method="post" enctype="multipart/form-data"
+            class="form-to-edit">
+            <!-- without enctype PHP cannot receive uploaded files -->
+            <!-- without '?id=<?= $movie['id'] ?>' update won't know which movie to edit  -->
+            <button type="button" class="back-btn" onclick="window.history.back()">Back</button>
             <h1 class="header-title">Edit Movie</h1>
             <div class="form-group">
                 <label for="title">Image</label>
-                <input type="file" name="fileToUpload" id="fileToUpload">
-                <input type="submit" value="Upload Image" name="submit">
+                <input type="file" name="image" id="image">
             </div>
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" id="title" name="title" required>
+                <input type="text" id="title" name="title" value="<?= htmlspecialchars($movie['title']) ?>" required>
             </div>
             <div class="form-group">
                 <label for="release_year">Release Year</label>
-                <input type="number" id="release_year" name="release_year" required>
+                <input type="number" id="release_year" name="release_year"
+                    value="<?= htmlspecialchars($movie['release_year']) ?>" required>
             </div>
             <div class="form-group">
                 <label for="genre">Genre</label>
                 <div id="genre-container">
-                    <div class="genre-row">
-                        <select name="genre[]" required>        <!-- this tells PHP to receive an array -->
-                            <option value="">Select Genre</option>
-                            <option value="Action">Action</option>
-                            <option value="Adventure">Adventure</option>
-                            <option value="Comedy">Comedy</option>
-                            <option value="Drama">Drama</option>
-                            <option value="Documentary">Documentary</option>
-                            <option value="Fantasy">Fantasy</option>
-                            <option value="Horror">Horror</option>
-                            <option value="Musical">Musical</option>
-                            <option value="Romance">Romance</option>
-                            <option value="Sci-Fi">Sci-Fi</option>
-                            <option value="Thriller">Thriller</option>
-                        </select>
-
-                        <button type="button" onclick="addGenre()">+</button>
-                    </div>
+                    <?php foreach ($selectedGenres as $index => $genre): ?>
+                        <div class="genre-row">
+                            <select name="genre[]" required> <!-- 'genre[]' this tells PHP to receive an array -->
+                                <option value="">Select Genre</option>
+                                <option value="Action" <?= $genre === 'Action' ? 'selected' : '' ?>>
+                                    Action
+                                </option>
+                                <option value="Adventure" <?= $genre === 'Adventure' ? 'selected' : '' ?>>
+                                    Adventure
+                                </option>
+                                <option value="Comedy" <?= $genre === 'Comedy' ? 'selected' : '' ?>>Comedy
+                                </option>
+                                <option value="Drama" <?= $genre === 'Drama' ? 'selected' : '' ?>>Drama
+                                </option>
+                                <option value="Documentary" <?= $genre === 'Documentary' ? 'selected' : '' ?>>Documentary
+                                </option>
+                                <option value="Fantasy" <?= $genre === 'Fantasy' ? 'selected' : '' ?>>Fantasy
+                                </option>
+                                <option value="Horror" <?= $genre === 'Horror' ? 'selected' : '' ?>>Horror
+                                </option>
+                                <option value="Musical" <?= $genre === 'Musical' ? 'selected' : '' ?>>Musical
+                                </option>
+                                <option value="Romance" <?= $genre === 'Romance'  ? 'selected' : '' ?>>Romance
+                                </option>
+                                <option value="Sci-Fi" <?= $genre === 'Sci-Fi' ? 'selected' : '' ?>>Sci-Fi
+                                </option>
+                                <option value="Thriller" <?= $genre === 'Thriller' ? 'selected' : '' ?>>
+                                    Thriller
+                                </option>
+                            </select>
+                            <button type="button" onclick="addGenre()">+</button>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
             <div class="form-group">
                 <label for="summary">Summary</label>
-                <textarea id="summary" name="summary" required></textarea>
+                <textarea id="summary" name="summary" required><?= htmlspecialchars($movie['summary']) ?></textarea>
             </div>
-            <button type="submit">Edit</button>
+            <button type="submit" class="save-btn">Save</button>
         </form>
     </div>
 
