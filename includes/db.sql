@@ -16,6 +16,7 @@ CREATE TABLE if NOT EXISTS `users` (
 CREATE TABLE if NOT EXISTS `movies` (
 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `title` VARCHAR(255) NOT NULL,
+`image` VARCHAR(255) NOT NULL,
 `release_year` YEAR,
 `genre` VARCHAR(100),
 `summary` TEXT,

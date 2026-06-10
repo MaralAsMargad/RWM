@@ -27,15 +27,43 @@ $movies = $stmt->fetchAll();
     <div class="movie-container">
         <?php foreach ($movies as $movie): ?>
             <div class="movie-card">
-                <h2> <?= htmlspecialchars($movie['title']) ?> </h2>
-                <img src="" alt="Movie Cover Image">
-                <p> <strong>Genre:</strong> <?= htmlspecialchars($movie['genre']) ?> </p>
-                <p> <strong>Year:</strong> <?= htmlspecialchars($movie['release_year']) ?> </p>
-                <p> <?= htmlspecialchars($movie['summary']) ?> </p>
-                <p> <strong>Rating:</strong> <?= htmlspecialchars($movie['rating']) ?>/10 </p>
-                <p> <strong>Review:</strong> <?= htmlspecialchars($movie['review']) ?>
+                <h2 class="movie-title"> <?= htmlspecialchars($movie['title']) ?> </h2>
+
+                <?php if (!empty($movie['image'])): ?>
+                    <img src="/rwm/uploads/<?= htmlspecialchars($movie['image']) ?>" alt="Movie Cover Image" class="movie-img">
+                <?php else: ?>
+                    <img src="/rwm/uploads/no-image.png" alt="No Image" class="movie-img">
+                <?php endif; ?>
+
+                <div class="movie-info-row">
+                    <span class="label">Genre:</span>
+                    <span class="value"><?= htmlspecialchars($movie['genre']) ?></span>
+                </div>
+
+                <div class="movie-info-row">
+                    <span class="label">Year:</span>
+                    <span class="value"><?= htmlspecialchars($movie['release_year']) ?></span>
+                </div>
+
+                <div class="movie-info-row">
+                    <span class="label">Summary:</span>
+                    <span class="value"><?= htmlspecialchars(substr($movie['summary'], 0, 80)) ?>...</span>
+                </div>
+                <!-- <p> <strong>Rating:</strong> <?= htmlspecialchars($movie['rating']) ?>/10 </p> -->
+                <br>
+                <div class="movie-action-btn">
+                    <button class="view-movie-btn"
+                        onclick="location.href='view_movie.php?id=<?= $movie['id'] ?>'">View</button>
+                    <!-- <button class="delete-movie-btn" onclick="location.href='delete_movie.php?id=<?= $movie['id'] ?>'">Delete</button> -->
+                    <button class="edit-movie-btn"
+                        onclick="location.href='edit_movie.php?id=<?= $movie['id'] ?>'">Edit</button>
+                    <button class="rate-movie-btn"
+                        onclick="location.href='add_rating.php?id=<?= $movie['id'] ?>'">Rate</button>
+                </div>
+
             </div>
         <?php endforeach; ?>
     </div>
 </body>
+
 </html>
