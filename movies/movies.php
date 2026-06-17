@@ -1,4 +1,5 @@
 <?php
+require '../includes/auth.php';
 require '../includes/db.php';
 
 $sql = "select * from movies order by created_at desc";
@@ -22,7 +23,9 @@ $movies = $stmt->fetchAll();
 
     <div class="movie-header">
         <h1>Movies</h1>
-        <button class="create-movie-btn" onclick="location.href='create_movie.php'">+ Add Movie</button>
+        <?php if ($role === 'admin'): ?>
+            <button class="create-movie-btn" onclick="location.href='create_movie.php'">+ Add Movie</button>
+        <?php endif; ?>
     </div>
     <div class="movie-container">
         <?php foreach ($movies as $movie): ?>
@@ -54,13 +57,14 @@ $movies = $stmt->fetchAll();
                 <div class="movie-action-btn">
                     <button class="view-movie-btn"
                         onclick="location.href='view_movie.php?id=<?= $movie['id'] ?>'">View</button>
+                <?php if ($role === 'admin'): ?>
                     <!-- <button class="delete-movie-btn" onclick="location.href='delete_movie.php?id=<?= $movie['id'] ?>'">Delete</button> -->
                     <button class="edit-movie-btn"
                         onclick="location.href='edit_movie.php?id=<?= $movie['id'] ?>'">Edit</button>
+                <?php endif; ?>
                     <button class="rate-movie-btn"
                         onclick="location.href='add_rating.php?id=<?= $movie['id'] ?>'">Rate</button>
                 </div>
-
             </div>
         <?php endforeach; ?>
     </div>
