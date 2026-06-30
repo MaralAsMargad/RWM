@@ -51,31 +51,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/rwm/css/log_reg.css">
     <title>Log In</title>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 <body>
     <?php include 'includes/nav.php'; ?>
 
     <div class="login-container">
-
         <!-- ERRORS -->
         <?php if (!empty($errors)): ?>
-
             <div class="errors">
-
                 <?php foreach ($errors as $error): ?>
-
                     <p><?= htmlspecialchars($error) ?></p>
-
                 <?php endforeach; ?>
-
             </div>
-
         <?php endif; ?>
 
-        <form action="login.php" method="POST" enctype="multipart/form-data" class="form-login">
-            <h1>Log In</h1>
+        <form action="login.php" method="POST" class="form-login">
+            <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">Back</button>
+            <h1 class="header-title">Log In</h1>
             <div class="form-group">
                 <label for="login">Email or Username</label>
                 <input type="text" id="login" name="login" required>
@@ -84,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Log In</button>
+            <button type="submit" class="btn btn-secondary" id="save-btn">Log In</button>
         </form>
     </div>
 </body>

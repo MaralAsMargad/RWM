@@ -81,25 +81,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/rwm/css/log_reg.css">
     <title>Log In</title>
 </head>
 
 <body>
     <?php include 'includes/nav.php'; ?>
-    <?php if (!empty($errors)): ?>
+    <div class="register-container">
+        <!-- ERRORS -->
+        <?php if (!empty($errors)): ?>
         <div class="alert alert-danger">
-
             <?php foreach ($errors as $error): ?>
-                <p>
-                    <?= htmlspecialchars($error) ?>
-                </p>
+                <p><?= htmlspecialchars($error) ?></p>
             <?php endforeach; ?>
-
         </div>
     <?php endif; ?>
 
-    <form action="register.php" method="POST">
-        <h1>Register</h1>
+    <form action="register.php" method="POST" class="form-register">
+        <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">Back</button>
+        <h1 class="header-title">Register</h1>
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
@@ -115,8 +115,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" id="password" name="password" required>
         </div>
 
-        <button type="submit">Register</button>
+        <button type="submit" class="btn btn-secondary" id="save-btn">Register</button>
     </form>
+    </div>
+    
 
 </body>
 
