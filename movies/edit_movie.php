@@ -1,5 +1,10 @@
 <?php
+require '../includes/auth.php';
 require '../includes/db.php';
+
+if ($role !== 'admin') {
+    die('Access denied.');
+}
 
 $errors = [];
 
@@ -199,10 +204,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="summary">Summary</label>
                 <textarea id="summary" name="summary" required><?= htmlspecialchars($movie['summary']) ?></textarea>
             </div>
-            <button type="submit" class="save-btn">Save</button>
+            <button type="submit" class="btn btn-primary" id="save-btn">Save</button>
         </form>
     </div>
-
 </body>
 
 </html>

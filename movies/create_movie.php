@@ -1,5 +1,10 @@
 <?php
+require '../includes/auth.php';
 require '../includes/db.php';
+
+if ($role !== 'admin') {
+    die('Access denied.');
+}
 
 $errors = [];
 
@@ -135,9 +140,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <?php endif; ?>
 
-        <form action="create_movie.php" method="post" enctype="multipart/form-data" class="form-create">        <!-- without enctype PHP cannot receive uploaded files -->
-        <button type="button" class="back-btn" onclick="window.history.back()">Back</button>
-        <h1 class="header-title">Create Movie</h1>
+        <form action="create_movie.php" method="post" enctype="multipart/form-data" class="form-create">    <!-- without enctype PHP cannot receive uploaded files -->
+            <button type="button" class="back-btn" onclick="window.history.back()">Back</button>
+            <h1 class="header-title">Create Movie</h1>
             <div class="form-group">
                 <label for="title">Image</label>
                 <input type="file" name="image" id="image">
@@ -154,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="genre">Genre</label>
                 <div id="genre-container">
                     <div class="genre-row">
-                        <select name="genre[]" required>            <!-- this tells PHP to receive an array -->
+                        <select name="genre[]" required> <!-- this tells PHP to receive an array -->
                             <option value="">Select Genre</option>
                             <option value="Action">Action</option>
                             <option value="Adventure">Adventure</option>
@@ -177,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="summary">Summary</label>
                 <textarea id="summary" name="summary" required></textarea>
             </div>
-            <button type="submit" class="save-btn">Create</button>
+            <button type="submit" class="btn btn-success">Create</button>
         </form>
     </div>
 
