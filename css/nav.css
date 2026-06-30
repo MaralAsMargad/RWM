@@ -21,7 +21,7 @@ nav{
 }
 
 .nav-links{
-    background-color: lightblue;
+    color: black;
     display: flex;
     gap: 1em;
     list-style: none;

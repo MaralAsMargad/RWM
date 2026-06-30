@@ -29,7 +29,6 @@ exit;
                             <p><strong>Release Year: </strong><?php echo htmlspecialchars($movie['release_year']); ?></p>
                             <p><strong>Summary: </strong><?php echo htmlspecialchars($movie['summary']); ?></p>                
                             <p><strong>Rating: </strong><?php echo htmlspecialchars($movie['rating']); ?>/10</p>
-                            <p><strong>Review: </strong><?php echo htmlspecialchars($movie['review']); ?></p>
                         </div>
                     </div>
                 </div>

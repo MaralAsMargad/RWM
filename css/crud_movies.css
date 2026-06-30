@@ -103,14 +103,8 @@ button{
     background-color: #e0e0e0;
 }
 
-.save-btn{
+#save-btn{
     display: block;
-    margin-left: auto;
-    background-color: white;
-    border: none;
-    border-radius: 5px;
+    margin: auto;
 }
 
-.save-btn:hover{
-    background-color: #e0e0e0;
-}
